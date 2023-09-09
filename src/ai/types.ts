@@ -19,7 +19,6 @@ export enum AICommand {
 }
 
 export enum ChatAIModel {
-  C2 = 'text-davinci-003',
   C3 = 'gpt-3.5-turbo',
   C4 = 'gpt-4',
 }

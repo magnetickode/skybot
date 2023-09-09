@@ -72,11 +72,6 @@ export class BotGateway {
     return this.botService.handleAICommands(message, AICommand.CHATAI);
   }
 
-  @PrefixCommand('sky-chatai2', { prefix: '-' })
-  onChatAICommand2(message: Message) {
-    return this.botService.handleAICommands(message, AICommand.CHATAI2);
-  }
-
   @PrefixCommand('sky-chatai3', { prefix: '-' })
   onChatAICommand3(message: Message) {
     return this.botService.handleAICommands(message, AICommand.CHATAI3);

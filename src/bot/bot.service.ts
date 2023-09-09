@@ -25,7 +25,7 @@ export class BotService {
         {
           name: '-sky-chatai<optionalnumber> <prompt>',
           value:
-            'Start a conversation with ChatGPT AI model. Make your prompt as descriptive as possible to get best results. After getting a response, you can reply to the message from Skybot to continue the conversation while it remembers context. You can keep chaining replies to continue the conversation. Input <optionalnumber> berween 2, 3, 4 to use different AI models. Default is 3.',
+            'Start a conversation with ChatGPT AI model. Make your prompt as descriptive as possible to get best results. After getting a response, you can reply to the message from Skybot to continue the conversation while it remembers context. You can keep chaining replies to continue the conversation. Input <optionalnumber> between 3 and 4 to use different AI models. Default is 3.',
         },
         {
           name: '<mention Skybot> <prompt>',
@@ -75,8 +75,6 @@ export class BotService {
     switch (command) {
       case AICommand.CHATAI:
         return this.aiService.converseWithChatGPT(message, ChatAIModel.C3);
-      case AICommand.CHATAI2:
-        return this.aiService.converseWithChatGPT(message, ChatAIModel.C2);
       case AICommand.CHATAI3:
         return this.aiService.converseWithChatGPT(message, ChatAIModel.C3);
       case AICommand.CHATAI4:
