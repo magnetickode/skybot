@@ -6,7 +6,6 @@ import {
   Message,
   EmbedBuilder,
   AttachmentBuilder,
-  TextChannel,
   ChannelType,
 } from 'discord.js';
 import {
@@ -18,8 +17,9 @@ import {
 import { post } from 'axios';
 import { TextToSpeechClient, protos } from '@google-cloud/text-to-speech';
 
-import { GuildAIVoice } from './types';
+import { ChatAIModel, GuildAIVoice } from './types';
 import { MusicService } from 'src/music/music.service';
+import { getEnumKeyByValue } from 'src/utils/enumHelpers';
 
 @Injectable()
 export class AIService {
@@ -34,10 +34,12 @@ export class AIService {
 
   async converseWithChatGPT(
     message: Message,
+    model: ChatAIModel,
     opts?: { parentMessageId: string },
   ) {
     const chatAPI = new (await import('chatgpt')).ChatGPTAPI({
       apiKey: process.env.OPENAI_SECRET,
+      completionParams: { model },
       messageStore: this.messageStore,
     });
 
@@ -60,7 +62,9 @@ export class AIService {
       const embed = new EmbedBuilder()
         .setColor('#ffa500')
         .setDescription(text)
-        .setFooter({ text: `ID: ${messageId}` });
+        .setFooter({
+          text: `ID: ${getEnumKeyByValue(ChatAIModel, model)}${messageId}`,
+        });
 
       message.reply({ embeds: [embed] });
     } catch (e) {
@@ -86,9 +90,11 @@ export class AIService {
       return;
     }
 
-    const parentMessageId = parentMessage.embeds[0].footer.text.slice(4);
+    const parentMessageId = parentMessage.embeds[0].footer.text.slice(6);
+    const chatAIModel: ChatAIModel =
+      ChatAIModel[parentMessage.embeds[0].footer.text.slice(4, 6)];
 
-    await this.converseWithChatGPT(message, {
+    await this.converseWithChatGPT(message, chatAIModel, {
       parentMessageId,
     });
   }

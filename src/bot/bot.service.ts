@@ -4,7 +4,7 @@ import { Message, EmbedBuilder } from 'discord.js';
 import { MusicService } from 'src/music/music.service';
 import { AIService } from 'src/ai/ai.service';
 import { MusicCommand } from 'src/music/types';
-import { AICommand } from 'src/ai/types';
+import { AICommand, ChatAIModel } from 'src/ai/types';
 
 @Injectable()
 export class BotService {
@@ -23,9 +23,9 @@ export class BotService {
           value: 'Show commands for music player.',
         },
         {
-          name: '-sky-chatai <prompt>',
+          name: '-sky-chatai<optionalnumber> <prompt>',
           value:
-            'Start a conversation with ChatGPT AI model. Make your prompt as descriptive as possible to get best results. After getting a response, you can reply to the message from Skybot to continue the conversation while it remembers context. You can keep chaining replies to continue the conversation.',
+            'Start a conversation with ChatGPT AI model. Make your prompt as descriptive as possible to get best results. After getting a response, you can reply to the message from Skybot to continue the conversation while it remembers context. You can keep chaining replies to continue the conversation. Input <optionalnumber> berween 2, 3, 4 to use different AI models. Default is 3.',
         },
         {
           name: '<mention Skybot> <prompt>',
@@ -74,7 +74,13 @@ export class BotService {
   handleAICommands(message: Message, command: AICommand, botId?: string) {
     switch (command) {
       case AICommand.CHATAI:
-        return this.aiService.converseWithChatGPT(message);
+        return this.aiService.converseWithChatGPT(message, ChatAIModel.C3);
+      case AICommand.CHATAI2:
+        return this.aiService.converseWithChatGPT(message, ChatAIModel.C2);
+      case AICommand.CHATAI3:
+        return this.aiService.converseWithChatGPT(message, ChatAIModel.C3);
+      case AICommand.CHATAI4:
+        return this.aiService.converseWithChatGPT(message, ChatAIModel.C4);
       case AICommand.REPLYAI:
         return this.aiService.handleRepliesToChatGPTResponses(message, botId);
       case AICommand.VOICEAI:

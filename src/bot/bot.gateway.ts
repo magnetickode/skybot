@@ -72,6 +72,21 @@ export class BotGateway {
     return this.botService.handleAICommands(message, AICommand.CHATAI);
   }
 
+  @PrefixCommand('sky-chatai2', { prefix: '-' })
+  onChatAICommand2(message: Message) {
+    return this.botService.handleAICommands(message, AICommand.CHATAI2);
+  }
+
+  @PrefixCommand('sky-chatai3', { prefix: '-' })
+  onChatAICommand3(message: Message) {
+    return this.botService.handleAICommands(message, AICommand.CHATAI3);
+  }
+
+  @PrefixCommand('sky-chatai4', { prefix: '-' })
+  onChatAICommand4(message: Message) {
+    return this.botService.handleAICommands(message, AICommand.CHATAI4);
+  }
+
   @On('messageCreate')
   onMention(message: Message) {
     if (!message.content.startsWith(`<@${this.client.user.id}>`)) {
